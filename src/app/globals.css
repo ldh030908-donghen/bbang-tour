@@ -1,0 +1,1216 @@
+/* 팔레트 근거: 갓 구운 빵 — 크러스트 골드(teal 역할) · 딸기밀크빵 핑크(gold 역할) ·
+   체리잼 레드(clay 역할) · 포도빵 라벤더(violet 역할). 변수 이름은 spain-trip-dashboard와
+   맞춰서 재사용했고, 실제 색만 베이커리 팔레트로 바꿨다. */
+:root {
+  --ground: #fff6ec;
+  --surface: #fffdf8;
+  --surface-sunk: #fcebd0;
+  --ink: #5b3a29;
+  --ink-soft: #6e4a33;
+  --ink-faint: #8f6a48;
+  --rule: #f0d3a0;
+  --rule-soft: #f8e8c8;
+  --teal: #9c6a1e;
+  --teal-soft: #fbe8c4;
+  --gold: #c2586a;
+  --gold-soft: #fbe1e4;
+  --clay: #b0432f;
+  --clay-soft: #f7ded8;
+  --violet: #8b72b0;
+  --violet-soft: #ede5f5;
+  --shadow: 0 1px 2px rgba(91, 58, 41, 0.08), 0 8px 20px -14px rgba(91, 58, 41, 0.32);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #2b1d14;
+    --surface: #3a2a1d;
+    --surface-sunk: #23170f;
+    --ink: #fce9ce;
+    --ink-soft: #d8bda0;
+    --ink-faint: #b09478;
+    --rule: #4a3624;
+    --rule-soft: #362617;
+    --teal: #f0b84a;
+    --teal-soft: #4a3a1e;
+    --gold: #f0919c;
+    --gold-soft: #4a2c30;
+    --clay: #e68a72;
+    --clay-soft: #4a2a20;
+    --violet: #c9b5e8;
+    --violet-soft: #362b48;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 20px -14px rgba(0, 0, 0, 0.8);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Sunflower", system-ui, -apple-system, "Malgun Gothic", sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Gaegu", "Sunflower", cursive;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--teal);
+}
+
+button {
+  font: inherit;
+}
+
+/* ---- top bar ---- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 14px max(16px, env(safe-area-inset-left));
+}
+.topbar-brand {
+  font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+/* ---- page ---- */
+.page {
+  flex: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px max(16px, env(safe-area-inset-left)) 32px;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+}
+
+.page-title {
+  font-family: "Gaegu", "Sunflower", cursive;
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.page-sub {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* ---- bottom nav ---- */
+.bottomnav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  padding: 6px max(8px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 16px -10px rgba(44, 32, 19, 0.35);
+}
+.navlink {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border-radius: 10px;
+  color: var(--ink-faint);
+  font-weight: 500;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+.navlink.active {
+  color: var(--teal);
+  background: var(--teal-soft);
+  font-weight: 700;
+}
+
+/* ---- mosaic strip (구엘 공원 트렌카디스 참고) ---- */
+.mosaic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.mosaic i {
+  display: block;
+  flex: 1 0 12px;
+  height: 100%;
+  min-width: 8px;
+  font-style: normal;
+}
+.mosaic i:nth-child(6n + 1) {
+  background: var(--teal);
+}
+.mosaic i:nth-child(6n + 2) {
+  background: var(--gold);
+}
+.mosaic i:nth-child(6n + 3) {
+  background: var(--clay);
+}
+.mosaic i:nth-child(6n + 4) {
+  background: var(--ink);
+  opacity: 0.7;
+}
+.mosaic i:nth-child(6n + 5) {
+  background: var(--teal);
+  opacity: 0.55;
+}
+.mosaic i:nth-child(6n + 6) {
+  background: var(--gold);
+  opacity: 0.65;
+}
+.mosaic i:nth-child(4n) {
+  flex-basis: 22px;
+  height: 70%;
+}
+.mosaic i:nth-child(7n) {
+  flex-basis: 9px;
+  height: 85%;
+}
+.mosaic i:nth-child(5n) {
+  height: 60%;
+}
+
+/* ---- hero illustration ---- */
+.hero {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface-sunk);
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow);
+}
+.hero-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 400 / 260;
+}
+.hero-band {
+  padding: 14px 18px 18px;
+  background: var(--surface);
+  border-top: 3px dashed var(--rule);
+}
+.hero-kicker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.hero-title {
+  font-family: "Gaegu", cursive;
+  font-weight: 700;
+  font-size: 1.85rem;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.hero-subtitle {
+  margin-top: 4px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+/* ---- cards ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.card + .card {
+  margin-top: 16px;
+}
+
+/* ---- D-day slim banner ---- */
+.dday-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, var(--gold-soft), transparent 70%);
+  border: 1px solid var(--rule-soft);
+  border-radius: 12px;
+}
+.dday-bar .dday-chip {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+.dday-bar .dday-range {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+}
+
+/* ---- stat grid ---- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.stat {
+  background: var(--surface-sunk);
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.stat-value {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+
+/* ---- trip map ---- */
+.trip-map {
+  width: 100%;
+  height: 280px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--surface-sunk);
+}
+.trip-map.compact {
+  height: 200px;
+  margin-top: 14px;
+}
+.map-pin {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+.map-pin.cat-bakery {
+  background: var(--teal);
+}
+.map-pin.cat-cafe {
+  background: var(--violet);
+}
+.map-pin.cat-meal {
+  background: var(--clay);
+}
+.map-pin.cat-sight {
+  background: var(--gold);
+}
+.map-pin-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  color: #fff;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+}
+.map-pin-num.cat-bakery {
+  background: var(--teal);
+}
+.map-pin-num.cat-cafe {
+  background: var(--violet);
+}
+.map-pin-num.cat-meal {
+  background: var(--clay);
+}
+.map-pin-num.cat-sight {
+  background: var(--gold);
+}
+.map-popup-local {
+  color: var(--ink-faint);
+  font-size: 0.82em;
+}
+.map-popup-desc {
+  margin: 6px 0 0;
+  max-width: 200px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.map-hint {
+  margin-top: 8px;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+}
+
+/* ---- back link ---- */
+.link-button {
+  display: inline-block;
+  background: var(--teal-soft);
+  color: var(--teal);
+  border: 1px solid var(--teal);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--teal);
+  text-decoration: none;
+}
+
+/* ---- place list (city page) ---- */
+.place-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.place-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.place-list-item .map-legend-dot {
+  margin-top: 6px;
+}
+.place-list-name {
+  font-weight: 600;
+}
+.place-list-local {
+  font-weight: 400;
+  color: var(--ink-faint);
+  font-size: 0.85em;
+}
+.place-list-desc {
+  margin-top: 3px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.place-list-days {
+  margin-top: 2px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+  color: var(--ink-faint);
+}
+
+/* ---- map legend ---- */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.map-legend-dot.cat-bakery {
+  background: var(--teal);
+}
+.map-legend-dot.cat-cafe {
+  background: var(--violet);
+}
+.map-legend-dot.cat-meal {
+  background: var(--clay);
+}
+.map-legend-dot.cat-sight {
+  background: var(--gold);
+}
+
+/* MapLibre 팝업/컨트롤을 앱 팔레트에 맞춤 */
+.maplibregl-popup-content {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: "Sunflower", sans-serif;
+  font-size: 0.85rem;
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+.maplibregl-popup-tip {
+  border-top-color: var(--surface) !important;
+  border-bottom-color: var(--surface) !important;
+}
+.maplibregl-popup-close-button {
+  color: var(--ink-faint);
+  font-size: 1rem;
+  padding: 2px 6px;
+}
+.maplibregl-ctrl-group {
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.maplibregl-ctrl-group button {
+  background: var(--surface);
+}
+.maplibregl-ctrl-attrib {
+  background: transparent !important;
+  font-size: 10px !important;
+}
+.maplibregl-map {
+  font-family: "Sunflower", sans-serif;
+}
+
+/* OpenFreeMap엔 자체 다크 스타일이 없어서, 지도 캔버스만 색 반전해 다크 테마에 맞춘다.
+   핀·라벨은 별도 DOM 레이어라 반전 영향을 받지 않는다. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .trip-map .maplibregl-canvas {
+    filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.95);
+  }
+}
+:root[data-theme="dark"] .trip-map .maplibregl-canvas {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.95);
+}
+
+/* ---- section heading ---- */
+.section-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 28px 0 10px;
+}
+.section-label:first-child {
+  margin-top: 0;
+}
+
+/* ---- alert banner ---- */
+.alert-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--clay-soft);
+  border-left: 3px solid var(--clay);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 14px;
+}
+.alert-banner + .alert-banner {
+  margin-top: 8px;
+}
+.alert-banner .t {
+  font-weight: 600;
+}
+.alert-banner .d {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* ---- bookings ---- */
+.booking-list {
+  display: grid;
+  gap: 1px;
+  background: var(--rule-soft);
+  border: 1px solid var(--rule-soft);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.booking-row {
+  background: var(--surface);
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 3.6em 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+.booking-cat {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--teal);
+  letter-spacing: 0.04em;
+}
+.booking-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.booking-detail {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- day card ---- */
+.day-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.day-card-date {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+}
+.day-card-city {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.badge-fixed {
+  flex: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--teal);
+  background: var(--teal-soft);
+  border: 1px solid var(--teal);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+.day-card-stay {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--surface-sunk);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.day-card-stay span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  margin-right: 6px;
+}
+
+/* ---- accordion ---- */
+.accordion {
+  display: grid;
+  gap: 10px;
+}
+.day-details {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+  scroll-margin-top: 70px;
+}
+.day-details:target {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px var(--teal) inset;
+}
+.day-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 52px;
+}
+.day-summary::-webkit-details-marker {
+  display: none;
+}
+.day-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.day-summary-main {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: none;
+}
+.day-summary-index {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--teal);
+  flex: none;
+}
+.day-summary-date {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  flex: none;
+}
+.day-summary-city {
+  font-weight: 700;
+  font-size: 1.05rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.day-summary-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+.chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--ink-faint);
+  border-bottom: 2px solid var(--ink-faint);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+.day-details[open] .chevron {
+  transform: rotate(-135deg);
+}
+.day-details-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--rule-soft);
+}
+.day-details-body .day-card-stay {
+  margin-top: 14px;
+}
+
+/* ---- timeline / item rows ---- */
+.timeline {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.item-row {
+  border-left: 3px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  background: var(--surface-sunk);
+  padding: 10px 12px;
+}
+.item-row.status-flexible {
+  border-left: 3px dashed var(--gold);
+  background: transparent;
+}
+.item-row.item-current {
+  border-left-style: solid;
+  border-left-width: 5px;
+  border-left-color: var(--teal);
+  background: var(--teal-soft);
+  box-shadow: 0 0 0 1px var(--teal) inset;
+}
+.item-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.item-time {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 500;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+.item-tag {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.item-code {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 700;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--gold-soft);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 1px 8px;
+}
+.item-now {
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--surface);
+  background: var(--teal);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.item-title {
+  margin-top: 4px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.item-note {
+  margin-top: 3px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.item-alert {
+  margin-top: 5px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--clay);
+}
+
+/* ---- place detail (nested) ---- */
+.place-detail {
+  margin-top: 8px;
+}
+.place-detail summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--teal);
+  font-weight: 700;
+  background: var(--teal-soft);
+  border: 1px solid var(--teal);
+  border-radius: 999px;
+  padding: 6px 14px;
+  min-height: 32px;
+  line-height: 1.5;
+}
+.place-detail summary::-webkit-details-marker {
+  display: none;
+}
+.stop-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.stop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.stop-name {
+  font-size: 0.85rem;
+}
+.stop-local {
+  color: var(--ink-faint);
+  font-size: 0.86rem;
+}
+.stop-desc {
+  margin: 3px 0 0;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.stop .maps-btn {
+  margin-top: 1px;
+}
+.maps-btn {
+  flex: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--surface);
+  background: var(--teal);
+  border-radius: 999px;
+  padding: 6px 12px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ---- checklist ---- */
+.checklist-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.checklist-tab {
+  flex: 1 1 calc(50% - 4px);
+  min-height: 48px;
+  border-radius: 10px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+.checklist-tab.active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--surface);
+}
+.checklist-progress {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.checklist-progress-bar {
+  margin-top: 6px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-sunk);
+  overflow: hidden;
+}
+.checklist-progress-fill {
+  height: 100%;
+  background: var(--teal);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+.checklist-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 52px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+}
+.checklist-item input {
+  margin-top: 2px;
+  width: 22px;
+  height: 22px;
+  accent-color: var(--teal);
+  flex: none;
+}
+.checklist-item-text {
+  display: block;
+  font-size: 0.95rem;
+}
+.checklist-item-note {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+  line-height: 1.4;
+}
+.checklist-item.done .checklist-item-text {
+  color: var(--ink-faint);
+  text-decoration: line-through;
+}
+
+/* ---- legend ---- */
+.legend {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.legend-swatch {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  flex: none;
+}
+.legend-swatch.fixed {
+  background: var(--teal);
+}
+.legend-swatch.flexible {
+  border-top: 3px dashed var(--gold);
+}
+
+/* ---- priority summary ---- */
+.priority-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.priority-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.priority-row-link {
+  text-decoration: none;
+  color: inherit;
+}
+.priority-num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--surface);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.priority-title {
+  display: block;
+  font-weight: 600;
+}
+.priority-reason {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ---- weather ---- */
+.weather-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 16px;
+}
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.weather-cell {
+  background: var(--surface-sunk);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.weather-city {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+.weather-live-tag {
+  margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--teal);
+  background: var(--teal-soft);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+.weather-temps {
+  margin-top: 4px;
+  font-family: "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.weather-high {
+  color: var(--clay);
+  font-weight: 600;
+}
+.weather-low {
+  color: var(--teal);
+  margin-left: 8px;
+}
+.weather-disclaimer {
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.weather-single {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.weather-note {
+  margin-top: 2px;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+.weather-clothing {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  background: var(--surface-sunk);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.guide-summary {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  background: var(--surface-sunk);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.guide-summary b {
+  color: var(--ink);
+}
+.guide-disclaimer {
+  margin-top: 8px;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  background: var(--clay-soft);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+/* ---- guide: venue list ---- */
+.venue-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.venue-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 12px 14px;
+  scroll-margin-top: 70px;
+}
+.venue-card:target {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px var(--teal) inset;
+}
+.venue-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.venue-name {
+  font-weight: 600;
+}
+.venue-booking {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.86rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex: none;
+}
+.venue-booking.b-required {
+  background: var(--clay-soft);
+  color: var(--clay);
+}
+.venue-booking.b-recommended {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.venue-booking.b-unnecessary {
+  background: var(--surface-sunk);
+  color: var(--ink-faint);
+}
+.venue-booking-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 0.86rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.venue-booking-toggle input {
+  width: 15px;
+  height: 15px;
+  accent-color: currentColor;
+}
+.venue-booking-toggle.b-required {
+  background: var(--clay-soft);
+  color: var(--clay);
+  border-color: var(--clay);
+}
+.venue-booking-toggle.b-recommended {
+  background: var(--gold-soft);
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.venue-booking-toggle.done {
+  background: var(--teal-soft);
+  color: var(--teal);
+  border-color: var(--teal);
+}
+.venue-meta {
+  margin-top: 4px;
+  font-size: 0.86rem;
+  color: var(--ink-faint);
+}
+.venue-note {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.empty-note {
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 24px 0;
+}
